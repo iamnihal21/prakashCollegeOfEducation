@@ -35,7 +35,7 @@ const isBuildPhase = process.env.NEXT_PHASE === 'phase-production-build'
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001',
-  'https://avirat-law-college-black.vercel.app',
+  'https://prakash-college-of-education.vercel.app',
   process.env.NEXT_PUBLIC_SERVER_URL,
   process.env.PAYLOAD_PUBLIC_SERVER_URL,
   process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined,
