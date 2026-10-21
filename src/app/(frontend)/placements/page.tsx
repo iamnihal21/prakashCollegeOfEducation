@@ -1,18 +1,16 @@
 import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
-import MootCourtClient from './MootCourtClient'
+import PlacementsClient from './PlacementsClient'
 
-// export const revalidate = 60
 export const dynamic = 'force-dynamic'
 
-export default async function MootCourtPage() {
+export default async function PlacementsPage() {
   const payload = await getPayload({ config: configPromise })
 
   const data = await payload.findGlobal({
-    slug: 'moot-court',
-    depth: 1,
+    slug: 'placements-settings',
+    depth: 2,
   })
 
-  return <MootCourtClient data={data} />
+  return <PlacementsClient data={data} />
 }
-

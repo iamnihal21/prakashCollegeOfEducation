@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { X, CheckCircle2, Send, GraduationCap, Sparkles, MessageSquare, Phone, User, ChevronDown } from 'lucide-react'
+import { X, CheckCircle2, Send, GraduationCap, MessageSquare, Phone, User, ChevronDown } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface PortalsMenuProps {
@@ -16,7 +16,7 @@ export default function AdmissionInquiry({ isOpen, onClose }: PortalsMenuProps) 
     name: '',
     email: '',
     phone: '',
-    course: 'bca',
+    course: 'bed', // 👈 Changed to bed
     lastQualification: '',
     message: '',
   })
@@ -44,7 +44,6 @@ export default function AdmissionInquiry({ isOpen, onClose }: PortalsMenuProps) 
     e.preventDefault()
     setIsSubmitting(true)
     try {
-      // POSTING TO PAYLOAD CMS ENDPOINT
       const response = await fetch('/api/inquiries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -53,12 +52,11 @@ export default function AdmissionInquiry({ isOpen, onClose }: PortalsMenuProps) 
 
       if (response.ok || response.status === 201) {
         setIsSuccess(true)
-        // Reset form data after success
         setFormData({
             name: '',
             email: '',
             phone: '',
-            course: 'bca',
+            course: 'bed', // 👈 Reset to bed
             lastQualification: '',
             message: '',
         })
@@ -81,7 +79,7 @@ export default function AdmissionInquiry({ isOpen, onClose }: PortalsMenuProps) 
 
   return (
     <div
-      className="fixed inset-0 bg-gray-950/40 backdrop-blur-md flex items-end sm:items-center justify-center z-[100] p-0 sm:p-4"
+      className="fixed inset-0 bg-background/80 backdrop-blur-md flex items-end sm:items-center justify-center z-[100] p-0 sm:p-4"
       onClick={onClose}
     >
       <motion.div
@@ -89,10 +87,9 @@ export default function AdmissionInquiry({ isOpen, onClose }: PortalsMenuProps) 
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 100 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="bg-white rounded-t-[3rem] sm:rounded-[3rem] w-full max-w-xl shadow-2xl overflow-hidden relative max-h-[95vh] flex flex-col border border-white/20"
+        className="bg-white rounded-t-[3rem] sm:rounded-[3rem] w-full max-w-xl shadow-2xl overflow-hidden relative max-h-[95vh] flex flex-col border border-border"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Decorative Background Element */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl pointer-events-none" />
 
         {/* Header */}
@@ -110,7 +107,7 @@ export default function AdmissionInquiry({ isOpen, onClose }: PortalsMenuProps) 
                 Admissions 2026
               </span>
             </motion.div>
-            <h2 className="text-3xl font-black text-gray-900 tracking-tighter">
+            <h2 className="text-3xl font-black text-foreground tracking-tighter">
               Start Your <span className="text-primary italic">Journey.</span>
             </h2>
           </div>
@@ -118,9 +115,9 @@ export default function AdmissionInquiry({ isOpen, onClose }: PortalsMenuProps) 
             whileHover={{ rotate: 90, scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={onClose}
-            className="p-3 hover:bg-gray-100 rounded-2xl transition-all"
+            className="p-3 hover:bg-muted rounded-2xl transition-all"
           >
-            <X className="w-6 h-6 text-gray-400" />
+            <X className="w-6 h-6 text-muted-foreground" />
           </motion.button>
         </div>
 
@@ -135,8 +132,8 @@ export default function AdmissionInquiry({ isOpen, onClose }: PortalsMenuProps) 
                 exit={{ opacity: 0, y: -20 }}
                 className="space-y-8"
               >
-                <p className="text-gray-500 font-medium leading-relaxed">
-                  Join a community of innovators. Leave your details below and our counselor will guide you personally.
+                <p className="text-muted-foreground font-medium leading-relaxed">
+                  Join a community of future educators. Leave your details below and our counselor will guide you personally.
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -175,7 +172,7 @@ export default function AdmissionInquiry({ isOpen, onClose }: PortalsMenuProps) 
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div className="w-full">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 ml-1 mb-2 block">
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1 mb-2 block">
                           Preferred Program
                         </label>
                         <div className="relative">
@@ -183,12 +180,11 @@ export default function AdmissionInquiry({ isOpen, onClose }: PortalsMenuProps) 
                             name="course"
                             value={formData.course}
                             onChange={handleChange}
-                            className="w-full px-5 py-4 border-2 border-gray-100 bg-gray-50/50 rounded-2xl outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary focus:bg-white transition-all text-sm font-bold appearance-none cursor-pointer"
+                            className="w-full px-5 py-4 border-2 border-border bg-muted/50 rounded-2xl outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary focus:bg-white transition-all text-sm font-bold appearance-none cursor-pointer"
                           >
-                            <option value="bca">BCA (Computer Applications)</option>
-                            <option value="bba">BBA (Business Admin)</option>
+                            <option value="bed">B.Ed (Bachelor of Education)</option>
                           </select>
-                          <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                          <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground">
                              <ChevronDown className="w-4 h-4" />
                           </div>
                         </div>
@@ -198,13 +194,13 @@ export default function AdmissionInquiry({ isOpen, onClose }: PortalsMenuProps) 
                         name="lastQualification"
                         value={formData.lastQualification}
                         onChange={handleChange}
-                        placeholder="e.g. 12th Commerce"
+                        placeholder="e.g. B.Com, B.Sc, B.A"
                         required
                       />
                     </div>
 
                     <div className="relative group">
-                       <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 ml-1 mb-2 block">
+                       <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1 mb-2 block">
                         Additional Questions
                       </label>
                       <textarea
@@ -213,9 +209,9 @@ export default function AdmissionInquiry({ isOpen, onClose }: PortalsMenuProps) 
                         onChange={handleChange}
                         rows={3}
                         placeholder="Tell us about your goals..."
-                        className="w-full px-5 py-4 border-2 border-gray-100 bg-gray-50/50 rounded-2xl outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary focus:bg-white transition-all resize-none text-sm font-medium"
+                        className="w-full px-5 py-4 border-2 border-border bg-muted/50 rounded-2xl outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary focus:bg-white transition-all resize-none text-sm font-medium"
                       ></textarea>
-                      <MessageSquare className="absolute right-4 bottom-4 w-4 h-4 text-gray-300 group-focus-within:text-primary transition-colors" />
+                      <MessageSquare className="absolute right-4 bottom-4 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                     </div>
                   </div>
 
@@ -224,7 +220,7 @@ export default function AdmissionInquiry({ isOpen, onClose }: PortalsMenuProps) 
                     disabled={isSubmitting}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full py-5 rounded-[1.5rem] bg-gray-950 text-white font-black uppercase tracking-widest text-xs hover:bg-primary shadow-xl shadow-gray-200 hover:shadow-primary/30 transition-all disabled:bg-gray-200 flex items-center justify-center gap-3"
+                    className="w-full py-5 rounded-[1.5rem] bg-primary text-primary-foreground font-black uppercase tracking-widest text-xs hover:bg-primary/90 shadow-xl shadow-primary/20 hover:shadow-primary/30 transition-all disabled:bg-muted flex items-center justify-center gap-3"
                   >
                     {isSubmitting ? (
                       <div className="flex items-center gap-2">
@@ -252,27 +248,26 @@ export default function AdmissionInquiry({ isOpen, onClose }: PortalsMenuProps) 
                     initial={{ scale: 0 }} 
                     animate={{ scale: 1.5, opacity: 0 }} 
                     transition={{ duration: 1.5, repeat: Infinity }}
-                    className="absolute inset-0 bg-green-500/20 rounded-full"
+                    className="absolute inset-0 bg-[hsl(var(--brand-green))]/20 rounded-full"
                   />
-                  <div className="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center relative z-10 shadow-lg shadow-green-200">
+                  <div className="w-24 h-24 bg-[hsl(var(--brand-green))] rounded-full flex items-center justify-center relative z-10 shadow-lg">
                     <CheckCircle2 className="w-12 h-12 text-white" />
                   </div>
                 </div>
-                <h2 className="text-4xl font-black text-gray-900 tracking-tighter mb-4">You&apos;re All Set!</h2>
-                <p className="text-gray-500 font-medium text-lg max-w-[320px] leading-relaxed">
+                <h2 className="text-4xl font-black text-foreground tracking-tighter mb-4">You&apos;re All Set!</h2>
+                <p className="text-muted-foreground font-medium text-lg max-w-[320px] leading-relaxed">
                   Excellent choice. We&rsquo;ve received your request and will reach out to you within 24 hours.
                 </p>
                 
-                {/* Visual Progress Bar */}
-                <div className="mt-12 w-full max-w-xs h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                <div className="mt-12 w-full max-w-xs h-1.5 bg-muted rounded-full overflow-hidden">
                    <motion.div 
                     initial={{ width: "0%" }}
                     animate={{ width: "100%" }}
                     transition={{ duration: 3.5, ease: "linear" }}
-                    className="h-full bg-green-500"
+                    className="h-full bg-[hsl(var(--brand-green))]"
                    />
                 </div>
-                <p className="mt-4 text-[10px] font-black uppercase tracking-[0.2em] text-gray-300">Returning to site</p>
+                <p className="mt-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Returning to site</p>
               </motion.div>
             )}
           </AnimatePresence>
@@ -285,16 +280,16 @@ export default function AdmissionInquiry({ isOpen, onClose }: PortalsMenuProps) 
 function InputField({ label, icon: Icon, ...props }: any) {
   return (
     <div className="w-full group">
-      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 ml-1 mb-2 block group-focus-within:text-primary transition-colors">
+      <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-1 mb-2 block group-focus-within:text-primary transition-colors">
         {label}
       </label>
       <div className="relative">
         <input
           {...props}
-          className="w-full px-5 py-4 border-2 border-gray-100 bg-gray-50/50 rounded-2xl outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary focus:bg-white transition-all text-sm font-bold placeholder:text-gray-300 placeholder:font-medium"
+          className="w-full px-5 py-4 border-2 border-border bg-muted/50 rounded-2xl outline-none focus:ring-4 focus:ring-primary/5 focus:border-primary focus:bg-white transition-all text-sm font-bold placeholder:text-muted-foreground/50 placeholder:font-medium"
         />
         {Icon && (
-          <Icon className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300 group-focus-within:text-primary transition-colors" />
+          <Icon className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
         )}
       </div>
     </div>

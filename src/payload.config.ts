@@ -15,9 +15,6 @@ import { Events } from './collections/Events'
 import { Publications } from './collections/Publications'
 import { Faculty } from './collections/Faculty'
 import { ResearchAreas } from './collections/ResearchAreas'
-import { Payments } from './collections/Payments'
-import { Students } from './collections/Student'
-import { Results } from './collections/Results'
 import { Inquiries } from './collections/Inquires'
 import { Activities } from './collections/Activities'
 import { Visits } from './collections/Visits'
@@ -27,7 +24,7 @@ import { Contact } from './globals/Contact'
 import { Admissions } from './globals/Admissions'
 import { Campus } from './globals/Campus'
 import { HomeSettings } from './globals/HomeSettings'
-import { MootCourt } from './globals/MootCourt'
+import { PlacementsSettings } from './globals/PlacementsSettings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -84,9 +81,6 @@ export default buildConfig({
     ResearchAreas,
     Faculty,
     Publications,
-    Payments,
-    Students,
-    Results,
     Inquiries,
     Activities,
     Visits,
@@ -99,7 +93,7 @@ export default buildConfig({
 
   cookiePrefix: 'prakash-college',
 
-  globals: [About, Contact, Admissions, Campus, HomeSettings, MootCourt],
+  globals: [About, Contact, Admissions, Campus, HomeSettings, PlacementsSettings],
 
   editor: lexicalEditor(),
 

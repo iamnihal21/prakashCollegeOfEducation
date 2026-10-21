@@ -1,27 +1,22 @@
 import { getPayload } from 'payload'
-import configPromise from '@/payload.config'
-import HomeClient from '../(frontend)/components/HomeClient'
+import configPromise from '@payload-config'
+import HomeClient from './components/HomeClient'
 
-
-// export const revalidate = 60
 export const dynamic = 'force-dynamic'
 
 export default async function Page() {
   const payload = await getPayload({ config: configPromise })
 
-  // 1. Add depth: 1 to get image objects instead of IDs
   const homeData = await payload.findGlobal({
     slug: 'home-settings',
-    depth: 1,
+    depth: 2,
   })
 
-  // 2. Add depth: 1 for the gallery images
-  const gallery = await payload.find({
+  const galleryData = await payload.find({
     collection: 'gallery',
-    limit: 4,
-    depth: 1,
+    depth: 2,
+    limit: 6,
   })
 
-  return <HomeClient homeData={homeData} galleryImages={gallery.docs} /> 
-  
+  return <HomeClient homeData={homeData} galleryData={galleryData.docs} />
 }

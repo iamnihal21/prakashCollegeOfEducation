@@ -1,90 +1,42 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
-import { motion, type Variants } from 'framer-motion'
-import { ArrowUpRight,} from 'lucide-react'
-import { useScrollAnimation } from '@/app/(frontend)/hooks/use-scroll-animation'
+import { motion } from 'framer-motion'
 
 export function HomeGallery({ images }: { images: any[] }) {
-  const { ref, isInView } = useScrollAnimation({ threshold: 0.1, triggerOnce: true })
-  
-  const displayImages = images?.slice(0, 4) || []
-
-  // ✅ FIXED Variants typing (no animation change)
-  const imageReveal: Variants = {
-    hidden: { clipPath: "inset(100% 0% 0% 0%)", scale: 1.2 },
-    visible: (i: number) => ({
-      clipPath: "inset(0% 0% 0% 0%)",
-      scale: 1,
-      transition: {
-        duration: 1,
-        ease: [0.19, 1, 0.22, 1] as any,
-        delay: i * 0.1,
-      }
-    })
-  }
+  if (!images || images.length === 0) return null
 
   return (
-    <section ref={ref} className="py-24 bg-secondary overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="text-primary font-bold text-xs uppercase tracking-[0.3em] mb-3 block">
-              Visual Journey
-            </span>
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tighter">
-              Life at <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Prakash</span>
-            </h2>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.4 }}
-          >
-            <Link 
-              href="/gallery" 
-              className="group flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-gray-400 hover:text-primary transition-colors"
-            >
-              Explore Full Gallery
-              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-            </Link>
-          </motion.div>
+    <section className="py-24 max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <div>
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">Life at <span className="text-primary">Prakash</span></h2>
+          <p className="text-muted-foreground text-lg max-w-xl">Explore our campus, modern facilities, and vibrant student life.</p>
         </div>
+      </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 h-[800px] md:h-[600px]">
-          {displayImages.map((image, index) => (
-            <motion.div
-              key={image.id}
-              custom={index}
-              variants={imageReveal}
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
-              className={`relative overflow-hidden group rounded-[2rem] bg-gray-100 ${
-                index === 0 ? 'md:col-span-2 md:row-span-2' :
-                index === 1 ? 'md:col-span-2 md:row-span-1' :
-                'md:col-span-1 md:row-span-1'
-              }`}
-            >
-              <Image
-                src={image.image.url}
-                alt={image.alt || 'Campus Life'}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                className="object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-1"
-              />
-              
-            </motion.div>
-          ))}
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[250px]">
+        {images.map((img, idx) => (
+          <motion.div
+            key={idx}
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: idx * 0.1 }}
+            className={`relative rounded-3xl overflow-hidden group cursor-pointer ${img.span || 'md:col-span-1'}`}
+          >
+            <Image
+              src={img.image?.url || 'https://cdccpcxdjfarbhfbuwqx.supabase.co/storage/v1/object/public/prakashCollegeOfEducation/campus.webp'}
+              alt={img.alt || 'Gallery Image'}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute bottom-4 left-4 right-4 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+              <p className="text-white font-bold">{img.title}</p>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </section>
   )

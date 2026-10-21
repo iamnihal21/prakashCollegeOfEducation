@@ -15,42 +15,36 @@ import {
   MapPin,
   Sparkles,
   GraduationCap,
-  Scale,
   Building2,
-  Landmark,
   Microscope,
   BookOpen,
   CheckCircle2,
   ArrowRight,
-  Shield,
+  School,
+  Palette,
 } from 'lucide-react'
-import { useScrollAnimation } from '@/app/(frontend)/hooks/use-scroll-animation'
 import Link from 'next/link'
 import { Button } from '@/app/(frontend)/components/ui/button'
 import ImageCarousel from '../components/ImageCarousel'
 
+// Modern Activity Styles mapped to Brand Colors
 const ACTIVITY_STYLES: Record<string, { icon: any; color: string }> = {
-  'Guest Lecture': { icon: Mic,        color: 'from-blue-500 to-cyan-500' },
-  Seminar:         { icon: BookOpen,   color: 'from-purple-500 to-pink-500' },
-  Workshop:        { icon: Sparkles,   color: 'from-amber-500 to-orange-500' },
-  Conference:      { icon: Users,      color: 'from-green-500 to-emerald-500' },
-  Cultural:        { icon: Sparkles,   color: 'from-pink-500 to-rose-500' },
-  Sports:          { icon: Users,      color: 'from-orange-500 to-red-500' },
-  'Legal Aid':     { icon: Scale,      color: 'from-emerald-500 to-teal-500' },
+  'Guest Lecture': { icon: Mic,        color: 'from-[hsl(var(--primary))] to-[hsl(var(--primary)/0.7)]' }, // Navy
+  Seminar:         { icon: BookOpen,   color: 'from-[hsl(var(--accent))] to-[hsl(var(--accent)/0.7)]' },     // Red
+  Workshop:        { icon: Sparkles,   color: 'from-[hsl(var(--secondary))] to-[hsl(var(--secondary)/0.7)]' },// Gold
+  Conference:      { icon: Users,      color: 'from-[hsl(var(--brand-green))] to-[hsl(var(--brand-green)/0.7)]' }, // Green
+  Cultural:        { icon: Palette,    color: 'from-[hsl(var(--accent))] to-[hsl(var(--secondary))]' },
+  Sports:          { icon: Users,      color: 'from-[hsl(var(--primary))] to-[hsl(var(--brand-green))]' },
 }
 
+// Modern Visit Styles mapped to Education
 const VISIT_STYLES: Record<string, { icon: any; color: string }> = {
-  'Vidhan Sabha':      { icon: Landmark,     color: 'from-blue-500 to-cyan-500' },
-  'Central Jail':      { icon: Building2,    color: 'from-gray-600 to-slate-700' },
-  'Forensic Lab':      { icon: Microscope,   color: 'from-purple-500 to-indigo-500' },
-  'High Court':        { icon: Scale,        color: 'from-amber-500 to-orange-500' },
-  'Human Rights':      { icon: Users,        color: 'from-red-500 to-rose-500' },
-  'Anti Corruption':   { icon: CheckCircle2, color: 'from-green-500 to-emerald-500' },
-  'Crime Branch':      { icon: Shield,       color: 'from-slate-700 to-gray-900' },
-  'Legal Service Aid': { icon: Scale,        color: 'from-emerald-500 to-teal-500' },
+  'Primary School':   { icon: School,     color: 'from-[hsl(var(--primary))] to-[hsl(var(--primary)/0.7)]' },
+  'Special Education':{ icon: Users,      color: 'from-[hsl(var(--accent))] to-[hsl(var(--accent)/0.7)]' },
+  'ICT Lab':          { icon: Microscope, color: 'from-[hsl(var(--secondary))] to-[hsl(var(--secondary)/0.7)]' },
+  'Default':          { icon: Building2,  color: 'from-[hsl(var(--brand-green))] to-[hsl(var(--brand-green)/0.7)]' },
 }
 
-// Helper — flatten `image` + `images[]` into one deduped list
 function collectImages(item: any): { url: string; alt: string }[] {
   const out: { url: string; alt: string }[] = []
   if (item?.image?.url) {
@@ -74,23 +68,9 @@ export default function ActivitiesClient({
   activities: any[]
   visits: any[]
 }) {
-  const { ref: heroRef } = useScrollAnimation({ threshold: 0.1, triggerOnce: true })
-  const { ref: actRef, isInView: actInView } = useScrollAnimation({
-    threshold: 0.1,
-    triggerOnce: true,
-  })
-  const { ref: visitRef, isInView: visitInView } = useScrollAnimation({
-    threshold: 0.1,
-    triggerOnce: true,
-  })
-
   const fadeInUp: Variants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as const },
-    },
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
   }
   const staggerChildren: Variants = {
     hidden: { opacity: 0 },
@@ -98,23 +78,16 @@ export default function ActivitiesClient({
   }
 
   return (
-    <main className="min-h-screen bg-white text-gray-950">
-      {/* ================= HERO ================= */}
-      <section className="relative pt-40 pb-24 overflow-hidden bg-gradient-to-b from-secondary via-orange-300 to-white">
+    <main className="min-h-screen bg-background selection:bg-primary selection:text-white">
+      
+      {/* ================= 1. HERO (Mesh Gradient) ================= */}
+      <section className="relative pt-40 pb-32 overflow-hidden bg-mesh-gradient">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/2 w-[1000px] h-[600px] bg-white/40 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />
-          <div
-            className="absolute inset-0 opacity-[0.06]"
-            style={{
-              backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
-              backgroundSize: '32px 32px',
-            }}
-          />
+          <div className="absolute top-0 left-1/2 w-[800px] h-[400px] bg-primary/10 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8 text-center flex flex-col items-center">
           <motion.div
-            ref={heroRef}
             initial="hidden"
             animate="visible"
             variants={staggerChildren}
@@ -122,57 +95,55 @@ export default function ActivitiesClient({
           >
             <motion.div
               variants={fadeInUp}
-              className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full mb-8 border border-gray-200 shadow-sm"
+              className="inline-flex items-center gap-2 glass-panel px-4 py-2 rounded-full mb-8"
             >
-              <Sparkles className="w-4 h-4 text-primary animate-bounce" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em]">
+              <Sparkles className="w-4 h-4 text-primary animate-pulse" />
+              <span className="text-xs font-black uppercase tracking-[0.2em] text-primary">
                 Beyond the Classroom
               </span>
             </motion.div>
 
             <motion.h1
               variants={fadeInUp}
-              className="text-6xl md:text-8xl font-black tracking-tighter mb-8 leading-[0.85]"
+              className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-8 leading-[0.9] text-foreground"
             >
               Learning <br />
-              <span className="text-primary italic">By Doing.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-secondary italic">
+                By Doing.
+              </span>
             </motion.h1>
 
             <motion.p
               variants={fadeInUp}
-              className="text-xl text-gray-700 leading-relaxed mb-12 max-w-2xl mx-auto font-medium"
+              className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-12 max-w-2xl mx-auto font-medium"
             >
-              From seminars with distinguished jurists to immersive visits at India&rsquo;s legal
-              institutions — our students learn law where it actually happens.
+              From interactive seminars with distinguished educators to immersive field visits at modern schools — our student-teachers learn where education actually happens.
             </motion.p>
           </motion.div>
         </div>
       </section>
 
-      {/* ================= ACTIVITIES ================= */}
+      {/* ================= 2. ACTIVITIES (Plain Background) ================= */}
       {activities?.length > 0 && (
         <section className="py-24 bg-white" id="activities">
-          <div ref={actRef} className="max-w-7xl mx-auto px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={actInView ? { opacity: 1, y: 0 } : {}}
-              className="text-center mb-16"
-            >
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+            <div className="text-center mb-16">
               <div className="inline-flex items-center gap-2 text-primary font-black uppercase tracking-[0.2em] text-xs mb-4">
                 <div className="w-8 h-[2px] bg-primary" />
                 <span>Section 01 — Activities</span>
                 <div className="w-8 h-[2px] bg-primary" />
               </div>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight">
-                Seminars, Talks &amp; <span className="text-primary italic">Workshops.</span>
+              <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
+                Seminars, Talks &amp; <span className="text-primary italic">Workshops</span>
               </h2>
-            </motion.div>
+            </div>
 
             <motion.div
               initial="hidden"
-              animate={actInView ? 'visible' : 'hidden'}
+              whileInView="visible"
+              viewport={{ once: true }}
               variants={staggerChildren}
-              className="grid md:grid-cols-2 gap-10"
+              className="grid md:grid-cols-2 gap-8"
             >
               {activities.map((item: any) => {
                 const style = ACTIVITY_STYLES[item.type] || ACTIVITY_STYLES['Seminar']
@@ -181,62 +152,61 @@ export default function ActivitiesClient({
 
                 return (
                   <motion.div key={item.id} variants={fadeInUp}>
-                    <Card className="group h-full bg-white rounded-[2.5rem] border-2 border-gray-100 hover:border-primary/20 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col">
-                      {/* ===== Single image carousel ===== */}
-                      <div className="p-6 pb-0">
-                        <div className="relative">
+                    <Card className="group h-full bg-card rounded-[2rem] border border-border/50 hover:border-primary/30 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 overflow-hidden flex flex-col">
+                      
+                      {/* Image */}
+                      <div className="p-4 pb-0">
+                        <div className="relative rounded-2xl overflow-hidden">
                           <ImageCarousel
                             images={images}
                             title={item.title}
                             className="aspect-[16/9] max-h-[380px]"
                           />
-                          {/* Type badge floating over the image */}
-                          <div className="absolute top-3 left-3 flex items-center gap-2 pointer-events-none">
-                            <div
-                              className={`w-9 h-9 rounded-xl bg-gradient-to-br ${style.color} flex items-center justify-center shadow-lg`}
-                            >
-                              <Icon className="h-4.5 w-4.5 text-white" />
+                          {/* Badge */}
+                          <div className="absolute top-4 left-4 flex items-center gap-2 pointer-events-none z-10">
+                            <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${style.color} flex items-center justify-center shadow-lg`}>
+                              <Icon className="h-5 w-5 text-white" />
                             </div>
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white bg-gray-950/50 backdrop-blur-md px-3 py-1 rounded-full">
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
                               {item.type}
                             </span>
                           </div>
                         </div>
                       </div>
 
-                      {/* ===== Text block ===== */}
-                      <CardHeader className="p-8 pt-6">
-                        <CardTitle className="text-2xl font-black mb-3 tracking-tight group-hover:text-primary transition-colors leading-tight">
+                      {/* Content */}
+                      <CardHeader className="p-6 sm:p-8 pt-6 flex-1 flex flex-col">
+                        <CardTitle className="text-2xl font-bold mb-3 tracking-tight group-hover:text-primary transition-colors leading-tight text-foreground">
                           {item.title}
                         </CardTitle>
 
                         {item.speaker && (
-                          <div className="mb-4">
-                            <div className="text-[10px] font-black uppercase tracking-widest text-primary">
+                          <div className="mb-4 bg-muted/50 p-3 rounded-xl inline-block">
+                            <div className="text-[10px] font-black uppercase tracking-widest text-accent">
                               Speaker
                             </div>
-                            <div className="font-bold text-gray-900">{item.speaker}</div>
+                            <div className="font-bold text-foreground">{item.speaker}</div>
                             {item.speakerTitle && (
-                              <div className="text-xs text-gray-500 mt-0.5">
+                              <div className="text-xs text-muted-foreground mt-0.5">
                                 {item.speakerTitle}
                               </div>
                             )}
                           </div>
                         )}
 
-                        <CardDescription className="text-base text-gray-500 font-medium leading-relaxed">
+                        <CardDescription className="text-base text-muted-foreground font-medium leading-relaxed mb-6">
                           {item.description}
                         </CardDescription>
 
-                        <div className="flex flex-wrap items-center gap-3 pt-4 text-xs mt-auto">
-                          <span className="flex items-center gap-1.5 text-gray-600">
-                            <Calendar className="h-3.5 w-3.5 text-primary" />
-                            <span className="font-bold">{item.date}</span>
+                        <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-border/50 text-sm mt-auto">
+                          <span className="flex items-center gap-1.5 text-foreground font-medium">
+                            <Calendar className="h-4 w-4 text-primary" />
+                            {item.date}
                           </span>
                           {item.venue && (
-                            <span className="flex items-center gap-1.5 text-gray-600">
-                              <MapPin className="h-3.5 w-3.5 text-primary" />
-                              <span className="font-medium">{item.venue}</span>
+                            <span className="flex items-center gap-1.5 text-foreground font-medium">
+                              <MapPin className="h-4 w-4 text-primary" />
+                              {item.venue}
                             </span>
                           )}
                         </div>
@@ -250,80 +220,77 @@ export default function ActivitiesClient({
         </section>
       )}
 
-      {/* ================= VISITS ================= */}
+      {/* ================= 3. VISITS (Deep Navy Background) ================= */}
       {visits?.length > 0 && (
-        <section className="py-32 bg-gray-950 relative overflow-hidden" id="visits">
-          <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
+        <section className="py-32 bg-primary relative overflow-hidden" id="visits">
+          {/* Subtle Background Pattern */}
+          <div className="absolute inset-0 opacity-[0.05] bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[100px]" />
 
-          <div ref={visitRef} className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={visitInView ? { opacity: 1, y: 0 } : {}}
-              className="text-center mb-20"
-            >
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <div className="text-center mb-20">
               <div className="inline-flex items-center gap-2 text-secondary font-black uppercase tracking-[0.2em] text-xs mb-4">
                 <div className="w-8 h-[2px] bg-secondary" />
                 <span>Section 02 — Educational Visits</span>
                 <div className="w-8 h-[2px] bg-secondary" />
               </div>
-              <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-4">
-                Where Law <span className="text-secondary italic">Comes Alive.</span>
+              <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-4">
+                Where Learning <span className="text-secondary italic">Comes Alive</span>
               </h2>
-              <p className="text-gray-400 font-medium mt-4 max-w-2xl mx-auto">
-                First-hand exposure to India&rsquo;s legal and civic institutions — from the
-                legislative floor to the forensic lab.
+              <p className="text-primary-foreground/70 font-medium mt-4 max-w-2xl mx-auto text-lg">
+                First-hand exposure to modern classrooms, special education centers, and educational technology hubs.
               </p>
-            </motion.div>
+            </div>
 
             <motion.div
               initial="hidden"
-              animate={visitInView ? 'visible' : 'hidden'}
+              whileInView="visible"
+              viewport={{ once: true }}
               variants={staggerChildren}
-              className="grid md:grid-cols-2 gap-10"
+              className="grid md:grid-cols-2 gap-8"
             >
               {visits.map((item: any) => {
-                const style = VISIT_STYLES[item.destination] || VISIT_STYLES['Vidhan Sabha']
+                // Fallback to Default if the specific string doesn't match
+                const style = VISIT_STYLES[item.destination] || VISIT_STYLES['Default']
                 const Icon = style.icon
                 const images = collectImages(item)
 
                 return (
                   <motion.div key={item.id} variants={fadeInUp}>
-                    <Card className="bg-white/5 border border-white/10 rounded-[2.5rem] overflow-hidden group hover:bg-white/10 hover:border-secondary/50 transition-all duration-500 h-full flex flex-col">
-                      {/* ===== Single image carousel ===== */}
-                      <div className="p-6 pb-0">
-                        <div className="relative">
+                    <Card className="bg-white/5 backdrop-blur-md border border-white/10 rounded-[2rem] overflow-hidden group hover:bg-white/10 hover:border-secondary/50 transition-all duration-500 h-full flex flex-col">
+                      
+                      {/* Image */}
+                      <div className="p-4 pb-0">
+                        <div className="relative rounded-2xl overflow-hidden">
                           <ImageCarousel
                             images={images}
                             title={item.title}
                             className="aspect-[16/9] max-h-[380px]"
                           />
-
-                          {/* Destination badge floating over image */}
-                          <div className="absolute top-3 left-3 flex items-center gap-3 pointer-events-none">
-                            <div
-                              className={`w-10 h-10 rounded-2xl bg-gradient-to-br ${style.color} flex items-center justify-center shadow-lg`}
-                            >
+                          {/* Badge */}
+                          <div className="absolute top-4 left-4 flex items-center gap-3 pointer-events-none z-10">
+                            <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${style.color} flex items-center justify-center shadow-lg`}>
                               <Icon className="h-5 w-5 text-white" />
                             </div>
                             <div>
                               <div className="text-[10px] font-black uppercase tracking-[0.2em] text-secondary drop-shadow">
                                 {item.destination}
                               </div>
-                              <div className="text-white font-black text-sm drop-shadow">
-                                {item.location || 'Visit'}
+                              <div className="text-white font-bold text-sm drop-shadow">
+                                {item.location || 'Field Visit'}
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      {/* ===== Text block ===== */}
-                      <CardContent className="p-8 pt-6 flex-1 flex flex-col">
-                        <h3 className="text-2xl font-black text-white mb-3 group-hover:text-secondary transition-colors leading-tight">
+                      {/* Content */}
+                      <CardContent className="p-6 sm:p-8 pt-6 flex-1 flex flex-col">
+                        <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-secondary transition-colors leading-tight">
                           {item.title}
                         </h3>
 
-                        <p className="text-gray-400 font-medium leading-relaxed mb-6">
+                        <p className="text-primary-foreground/70 font-medium leading-relaxed mb-6">
                           {item.description}
                         </p>
 
@@ -332,24 +299,21 @@ export default function ActivitiesClient({
                             <div className="text-[10px] font-black uppercase tracking-widest text-secondary mb-3">
                               Key Learnings
                             </div>
-                            <ul className="space-y-2">
+                            <ul className="space-y-3">
                               {item.learnings.map((l: any, i: number) => (
-                                <li
-                                  key={i}
-                                  className="flex items-start gap-2 text-sm text-white/80"
-                                >
-                                  <CheckCircle2 className="h-4 w-4 text-secondary shrink-0 mt-0.5" />
-                                  <span>{l.point}</span>
+                                <li key={i} className="flex items-start gap-3 text-sm text-white/80">
+                                  <CheckCircle2 className="h-5 w-5 text-secondary shrink-0" />
+                                  <span className="font-medium leading-tight pt-0.5">{l.point}</span>
                                 </li>
                               ))}
                             </ul>
                           </div>
                         )}
 
-                        <div className="flex flex-wrap items-center gap-3 text-xs mt-auto">
-                          <span className="flex items-center gap-1.5 text-gray-400">
-                            <Calendar className="h-3.5 w-3.5 text-secondary" />
-                            <span className="font-bold text-white/90">{item.date}</span>
+                        <div className="flex flex-wrap items-center gap-3 text-sm mt-auto pt-4">
+                          <span className="flex items-center gap-2 text-primary-foreground/60">
+                            <Calendar className="h-4 w-4 text-secondary" />
+                            <span className="font-bold text-white">{item.date}</span>
                           </span>
                         </div>
                       </CardContent>
@@ -362,28 +326,28 @@ export default function ActivitiesClient({
         </section>
       )}
 
-      {/* ================= CTA ================= */}
-      <section className="py-32 bg-gradient-to-b from-white to-secondary/20">
+      {/* ================= 4. CTA (Mesh Gradient Background) ================= */}
+      <section className="py-24 bg-mesh-gradient border-t border-border/50">
         <div className="max-w-5xl mx-auto px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           >
-            <Card className="bg-gray-950 border border-white/10 rounded-[4rem] overflow-hidden">
-              <CardContent className="p-12 md:p-24 text-center">
+            <Card className="glass-panel border-none rounded-[3rem] overflow-hidden shadow-2xl">
+              <CardContent className="p-12 md:p-20 text-center">
                 <div className="w-20 h-20 rounded-3xl bg-secondary/20 flex items-center justify-center mx-auto mb-10 border border-secondary/30">
                   <GraduationCap className="h-10 w-10 text-secondary" />
                 </div>
-                <h3 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-6 leading-none">
+                <h3 className="text-4xl md:text-5xl font-black text-foreground tracking-tighter mb-6 leading-none">
                   Be Part of It.
                 </h3>
-                <p className="text-gray-400 font-medium text-lg mb-12 max-w-xl mx-auto">
-                  Every Prakash student experiences these activities and visits.
+                <p className="text-muted-foreground font-medium text-lg mb-10 max-w-xl mx-auto">
+                  Every Prakash student-teacher experiences these activities and visits. Join us to begin your journey.
                 </p>
                 <Button
                   asChild
-                  className="h-16 px-10 rounded-2xl bg-primary text-white font-black uppercase tracking-widest text-xs hover:scale-105 transition-all shadow-2xl shadow-primary/40"
+                  className="h-16 px-10 rounded-2xl bg-primary text-primary-foreground font-black uppercase tracking-widest text-xs hover:scale-105 transition-all shadow-xl shadow-primary/20"
                 >
                   <Link href="/admissions">
                     Apply Now <ArrowRight className="ml-2 h-4 w-4" />
@@ -394,6 +358,7 @@ export default function ActivitiesClient({
           </motion.div>
         </div>
       </section>
+
     </main>
   )
 }

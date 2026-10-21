@@ -2,7 +2,6 @@ import { getPayload } from 'payload'
 import configPromise from '@/payload.config'
 import EventsClient from './EventsClient'
 
-// export const revalidate = 60
 export const dynamic = 'force-dynamic'
 
 export default async function EventsPage() {
@@ -12,7 +11,7 @@ export default async function EventsPage() {
     collection: 'events',
     limit: 100,
     sort: '-date',
-    depth: 2,
+    depth: 2, // Ensures images load properly
   })
 
   return <EventsClient eventsData={eventsRes.docs} />

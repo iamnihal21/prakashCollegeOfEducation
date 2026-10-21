@@ -1,179 +1,138 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence, Variants } from 'framer-motion'
+import Link from 'next/link'
 import Image from 'next/image'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Button } from '@/app/(frontend)/components/ui/button'
+import { ArrowRight } from 'lucide-react'
 
-interface HeroProps {
-  data?: any[]
-}
+export function Hero({ data }: { data?: any[] }) {
+  const [currentSlide, setCurrentSlide] = useState(0)
+  
+  // Fallback data if DB is empty
+  const slides = data && data.length > 0 ? data : [
+    {
+      title: 'Welcome to',
+      highlight: 'Prakash College',
+      subtitle: 'Shaping Future Educators Since 1961',
+      description: 'A professional teacher-education institution committed to preparing competent, responsible and value-oriented teachers.',
+      image: { url: 'https://cdccpcxdjfarbhfbuwqx.supabase.co/storage/v1/object/public/prakashCollegeOfEducation/campus.webp' }
+    }
+  ]
 
-export function Hero({ data }: HeroProps) {
-  const [activeSlide, setActiveSlide] = useState(0)
-  const [direction, setDirection] = useState(0)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const slides = data || []
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const { clientX, clientY } = e
-    const moveX = (clientX - window.innerWidth / 2) / 50
-    const moveY = (clientY - window.innerHeight / 2) / 50
-    setMousePosition({ x: moveX, y: moveY })
-  }
-
+  // Auto-advance slider
   useEffect(() => {
-    if (slides.length <= 1) return
     const timer = setInterval(() => {
-      setDirection(1)
-      setActiveSlide((prev) => (prev + 1) % slides.length)
-    }, 6000)
+      setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1))
+    }, 6000) // 6 seconds per slide
     return () => clearInterval(timer)
   }, [slides.length])
 
-  const handleSlideChange = (index: number) => {
-    setDirection(index > activeSlide ? 1 : -1)
-    setActiveSlide(index)
-  }
-
-  // ✅ FIXED TYPES
-  const slideVariants: Variants = {
-    enter: () => ({
-      scale: 1.2,
-      opacity: 0,
-      filter: 'blur(10px)',
-    }),
-    center: {
-      scale: 1,
-      opacity: 1,
-      filter: 'blur(0px)',
-      transition: {
-        duration: 1.2,
-        ease: [0.22, 1, 0.36, 1] as [number, number, number, number], // ✅ FIX
-      },
-    },
-    exit: () => ({
-      scale: 0.9,
-      opacity: 0,
-      filter: 'blur(10px)',
-      transition: { duration: 0.8 },
-    }),
-  }
-
-  const contentVariants: Variants = {
-    initial: { opacity: 0, y: 40, rotateX: 20 },
-    animate: {
-      opacity: 1,
-      y: 0,
-      rotateX: 0,
-      transition: {
-        type: 'spring' as const, // ✅ FIX
-        stiffness: 100,
-        damping: 20,
-        delay: 0.4,
-      },
-    },
-    exit: {
-      opacity: 0,
-      y: -20,
-      transition: { duration: 0.3 },
-    },
-  }
-
-  if (!slides.length) return null
+  const active = slides[currentSlide]
 
   return (
-    
-    <section
-      onMouseMove={handleMouseMove}
-      className="relative h-screen w-full overflow-hidden bg-[#050505] perspective-1000"
-    >
-      <AnimatePresence initial={false} custom={direction} mode="wait">
-        <motion.div
-          key={activeSlide}
-          custom={direction}
-          variants={slideVariants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          className="absolute inset-0"
-        >
-          <motion.div
-            className="absolute inset-0"
-            animate={{
-              x: -mousePosition.x,
-              y: -mousePosition.y,
-              scale: 1.05,
-            }}
-            transition={{ type: 'tween', ease: 'linear', duration: 0.2 }}
-          >
-            {slides[activeSlide]?.image?.url && (
-              <Image
-                src={slides[activeSlide].image.url}
-                alt={slides[activeSlide].title || 'Hero Slide'}
-                fill
-                className="object-cover"
-                priority
-              />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/90" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-black/80" />
-          </motion.div>
-
-          <div
-            className="absolute inset-0 opacity-10"
-            style={{
-              backgroundImage: `linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)`,
-              backgroundSize: '60px 60px',
-            }}
-          />
-        </motion.div>
-      </AnimatePresence>
-
-      <div className="relative h-full flex items-center justify-center z-10">
-        <div className="max-w-7xl mx-auto px-6 w-full">
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.div
-              key={activeSlide}
-              variants={contentVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              className="text-center"
-            >
-              <motion.span
-                initial={{ opacity: 0, letterSpacing: '0.5em' }}
-                animate={{ opacity: 1, letterSpacing: '0.2em' }}
-                className="text-white font-bold text-xs md:text-sm uppercase mb-4 block"
+    <section className="relative pt-32 pb-16 lg:pt-40 lg:pb-24 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+          
+          {/* Left: Animated Text */}
+          <div className="max-w-2xl min-h-[400px] flex flex-col justify-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentSlide}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
               >
-                {slides[activeSlide].highlight}
-              </motion.span>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary font-semibold text-sm mb-6 border border-primary/20">
+                  <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                  {active.subtitle}
+                </div>
+                
+                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-foreground leading-[1.1]">
+                  {active.title} <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-secondary">
+                    {active.highlight}
+                  </span>
+                </h1>
+                
+                <p className="mt-6 text-lg md:text-xl text-muted-foreground leading-relaxed">
+                  {active.description}
+                </p>
+              </motion.div>
+            </AnimatePresence>
 
-              <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-white tracking-tighter mb-6">
-                {slides[activeSlide].title}
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r to-primary from-accent">
-                  {slides[activeSlide].subtitle}
-                </span>
-              </h1>
-
-              <p className="max-w-xl mx-auto text-base md:text-lg text-gray-200 font-medium leading-relaxed mb-10">
-                {slides[activeSlide].description}
-              </p>
-
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              transition={{ delay: 0.5 }}
+              className="mt-10 flex flex-col sm:flex-row gap-4"
+            >
+              <Button size="lg" className="rounded-full shadow-lg shadow-primary/20 text-base h-14 px-8" asChild>
+                <Link href="/admissions">
+                  Apply for B.Ed 2026 <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" className="rounded-full h-14 px-8 border-2 bg-white/50 backdrop-blur" asChild>
+                <Link href="/aboutus">Discover Our Legacy</Link>
+              </Button>
             </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
+          </div>
 
-      {/* Indicators */}
-      <div className="absolute bottom-12 right-12 z-20 flex flex-col gap-4">
-        {slides.map((_, index) => (
-          <button key={index} onClick={() => handleSlideChange(index)} className="flex items-center gap-4 group">
-            <span className={`text-[10px] font-bold ${index === activeSlide ? 'text-primary' : 'text-white/20'}`}>
-              0{index + 1}
-            </span>
-            <div className={`h-[2px] ${index === activeSlide ? 'w-12 bg-primary' : 'w-4 bg-white/20'}`} />
-          </button>
-        ))}
+          {/* Right: Moving Images */}
+          <div className="relative lg:ml-auto w-full max-w-lg mx-auto lg:max-w-none aspect-[4/5] lg:aspect-square">
+            {/* Decorative Frame */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-primary to-secondary rounded-[2.5rem] rotate-3 scale-105 opacity-20 blur-sm" />
+            
+            <div className="relative w-full h-full rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white z-10 bg-muted">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentSlide}
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1 }}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src={active.image?.url || 'https://cdccpcxdjfarbhfbuwqx.supabase.co/storage/v1/object/public/prakashCollegeOfEducation/campus.webp'}
+                    alt="Campus"
+                    fill
+                    className="object-cover ken-burns" // Adds the slow moving zoom effect
+                    priority
+                  />
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Glass Overlay Badge */}
+              <div className="absolute bottom-6 left-6 right-6 glass-panel p-4 rounded-xl flex items-center justify-between z-20">
+                <div>
+                  <p className="text-sm font-bold text-foreground">NCTE Recognized</p>
+                  <p className="text-xs text-muted-foreground">Sanctioned Intake: 50</p>
+                </div>
+                <div className="w-10 h-10 bg-brand-green rounded-full flex items-center justify-center text-white font-bold shadow-lg shadow-brand-green/30">
+                  ✓
+                </div>
+              </div>
+            </div>
+            
+            {/* Slider Dots */}
+            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+              {slides.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentSlide(idx)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    currentSlide === idx ? 'w-8 bg-primary' : 'bg-primary/30'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
   )

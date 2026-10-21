@@ -64,7 +64,6 @@ export type SupportedTimezones =
 export interface Config {
   auth: {
     users: UserAuthOperations;
-    students: StudentAuthOperations;
   };
   blocks: {};
   collections: {
@@ -77,9 +76,6 @@ export interface Config {
     'research-areas': ResearchArea;
     faculty: Faculty;
     publications: Publication;
-    payments: Payment;
-    students: Student;
-    results: Result;
     inquiries: Inquiry;
     activities: Activity;
     visits: Visit;
@@ -99,9 +95,6 @@ export interface Config {
     'research-areas': ResearchAreasSelect<false> | ResearchAreasSelect<true>;
     faculty: FacultySelect<false> | FacultySelect<true>;
     publications: PublicationsSelect<false> | PublicationsSelect<true>;
-    payments: PaymentsSelect<false> | PaymentsSelect<true>;
-    students: StudentsSelect<false> | StudentsSelect<true>;
-    results: ResultsSelect<false> | ResultsSelect<true>;
     inquiries: InquiriesSelect<false> | InquiriesSelect<true>;
     activities: ActivitiesSelect<false> | ActivitiesSelect<true>;
     visits: VisitsSelect<false> | VisitsSelect<true>;
@@ -120,7 +113,7 @@ export interface Config {
     admissions: Admission;
     'campus-settings': CampusSetting;
     'home-settings': HomeSetting;
-    'moot-court': MootCourt;
+    'placements-settings': PlacementsSetting;
   };
   globalsSelect: {
     about: AboutSelect<false> | AboutSelect<true>;
@@ -128,34 +121,16 @@ export interface Config {
     admissions: AdmissionsSelect<false> | AdmissionsSelect<true>;
     'campus-settings': CampusSettingsSelect<false> | CampusSettingsSelect<true>;
     'home-settings': HomeSettingsSelect<false> | HomeSettingsSelect<true>;
-    'moot-court': MootCourtSelect<false> | MootCourtSelect<true>;
+    'placements-settings': PlacementsSettingsSelect<false> | PlacementsSettingsSelect<true>;
   };
   locale: null;
-  user: User | Student;
+  user: User;
   jobs: {
     tasks: unknown;
     workflows: unknown;
   };
 }
 export interface UserAuthOperations {
-  forgotPassword: {
-    email: string;
-    password: string;
-  };
-  login: {
-    email: string;
-    password: string;
-  };
-  registerFirstUser: {
-    email: string;
-    password: string;
-  };
-  unlock: {
-    email: string;
-    password: string;
-  };
-}
-export interface StudentAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -361,63 +336,6 @@ export interface Publication {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payments".
- */
-export interface Payment {
-  id: number;
-  student: number | Student;
-  amount: number;
-  category: 'tuition' | 'exam' | 'hostel';
-  status?: ('pending' | 'paid') | null;
-  paymentDate?: string | null;
-  transactionId?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "students".
- */
-export interface Student {
-  id: number;
-  name: string;
-  enrollmentNumber: string;
-  phoneNumber: string;
-  course: 'bca' | 'bba';
-  needsPasswordChange?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
-  collection: 'students';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "results".
- */
-export interface Result {
-  id: number;
-  student: number | Student;
-  semester: number;
-  sgpa: number;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "inquiries".
  */
 export interface Inquiry {
@@ -573,18 +491,6 @@ export interface PayloadLockedDocument {
         value: number | Publication;
       } | null)
     | ({
-        relationTo: 'payments';
-        value: number | Payment;
-      } | null)
-    | ({
-        relationTo: 'students';
-        value: number | Student;
-      } | null)
-    | ({
-        relationTo: 'results';
-        value: number | Result;
-      } | null)
-    | ({
         relationTo: 'inquiries';
         value: number | Inquiry;
       } | null)
@@ -597,15 +503,10 @@ export interface PayloadLockedDocument {
         value: number | Visit;
       } | null);
   globalSlug?: string | null;
-  user:
-    | {
-        relationTo: 'users';
-        value: number | User;
-      }
-    | {
-        relationTo: 'students';
-        value: number | Student;
-      };
+  user: {
+    relationTo: 'users';
+    value: number | User;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -615,15 +516,10 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: number;
-  user:
-    | {
-        relationTo: 'users';
-        value: number | User;
-      }
-    | {
-        relationTo: 'students';
-        value: number | Student;
-      };
+  user: {
+    relationTo: 'users';
+    value: number | User;
+  };
   key?: string | null;
   value?:
     | {
@@ -793,58 +689,6 @@ export interface PublicationsSelect<T extends boolean = true> {
   journal?: T;
   publishDate?: T;
   link?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payments_select".
- */
-export interface PaymentsSelect<T extends boolean = true> {
-  student?: T;
-  amount?: T;
-  category?: T;
-  status?: T;
-  paymentDate?: T;
-  transactionId?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "students_select".
- */
-export interface StudentsSelect<T extends boolean = true> {
-  name?: T;
-  enrollmentNumber?: T;
-  phoneNumber?: T;
-  course?: T;
-  needsPasswordChange?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
-    | T
-    | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "results_select".
- */
-export interface ResultsSelect<T extends boolean = true> {
-  student?: T;
-  semester?: T;
-  sgpa?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1230,87 +1074,43 @@ export interface HomeSetting {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "moot-court".
+ * via the `definition` "placements-settings".
  */
-export interface MootCourt {
+export interface PlacementsSetting {
   id: number;
-  heroBadge?: string | null;
-  heroTitle?: string | null;
-  heroHighlight?: string | null;
-  heroDescription?: string | null;
-  heroImage?: (number | null) | Media;
-  /**
-   * Photos shown as a grid below the hero section
-   */
-  galleryImages?:
-    | {
-        image: number | Media;
-        /**
-         * Optional caption, e.g. "Semi-final round"
-         */
-        caption?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  aboutTitle?: string | null;
-  aboutDescription?: string | null;
-  aboutPoints?:
-    | {
-        point: string;
-        id?: string | null;
-      }[]
-    | null;
+  hero?: {
+    title?: string | null;
+    highlight?: string | null;
+    description?: string | null;
+  };
   stats?:
     | {
         value: string;
         label: string;
-        iconType?: ('trophy' | 'award' | 'scale' | 'gavel' | 'users' | 'target') | null;
+        iconType?: ('graduation' | 'building' | 'award' | 'users') | null;
         id?: string | null;
       }[]
     | null;
-  upcomingCompetitions?:
+  highlights?:
     | {
         title: string;
-        date: string;
-        venue: string;
         description: string;
-        prize?: string | null;
-        teamSize?: string | null;
-        deadline?: string | null;
-        category?: ('National' | 'International' | 'State' | 'Intra-College') | null;
-        color?:
-          | (
-              | 'from-blue-500 to-cyan-500'
-              | 'from-purple-500 to-pink-500'
-              | 'from-amber-500 to-orange-500'
-              | 'from-green-500 to-emerald-500'
-              | 'from-red-500 to-rose-500'
-            )
-          | null;
+        iconType?: ('briefcase' | 'award' | 'shield' | 'users') | null;
         id?: string | null;
       }[]
     | null;
-  achievements?:
-    | {
-        year: string;
-        competition: string;
-        position: string;
-        participants?: string | null;
-        description?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  facilities?:
+  recruiters?:
     | {
         name: string;
-        description?: string | null;
-        iconType?: ('gavel' | 'book' | 'scale' | 'mic' | 'briefcase' | 'star' | 'check') | null;
-        features?:
-          | {
-              feature?: string | null;
-              id?: string | null;
-            }[]
-          | null;
+        type?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  testimonials?:
+    | {
+        name: string;
+        role: string;
+        quote: string;
         id?: string | null;
       }[]
     | null;
@@ -1587,28 +1387,15 @@ export interface HomeSettingsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "moot-court_select".
+ * via the `definition` "placements-settings_select".
  */
-export interface MootCourtSelect<T extends boolean = true> {
-  heroBadge?: T;
-  heroTitle?: T;
-  heroHighlight?: T;
-  heroDescription?: T;
-  heroImage?: T;
-  galleryImages?:
+export interface PlacementsSettingsSelect<T extends boolean = true> {
+  hero?:
     | T
     | {
-        image?: T;
-        caption?: T;
-        id?: T;
-      };
-  aboutTitle?: T;
-  aboutDescription?: T;
-  aboutPoints?:
-    | T
-    | {
-        point?: T;
-        id?: T;
+        title?: T;
+        highlight?: T;
+        description?: T;
       };
   stats?:
     | T
@@ -1618,42 +1405,27 @@ export interface MootCourtSelect<T extends boolean = true> {
         iconType?: T;
         id?: T;
       };
-  upcomingCompetitions?:
+  highlights?:
     | T
     | {
         title?: T;
-        date?: T;
-        venue?: T;
         description?: T;
-        prize?: T;
-        teamSize?: T;
-        deadline?: T;
-        category?: T;
-        color?: T;
+        iconType?: T;
         id?: T;
       };
-  achievements?:
-    | T
-    | {
-        year?: T;
-        competition?: T;
-        position?: T;
-        participants?: T;
-        description?: T;
-        id?: T;
-      };
-  facilities?:
+  recruiters?:
     | T
     | {
         name?: T;
-        description?: T;
-        iconType?: T;
-        features?:
-          | T
-          | {
-              feature?: T;
-              id?: T;
-            };
+        type?: T;
+        id?: T;
+      };
+  testimonials?:
+    | T
+    | {
+        name?: T;
+        role?: T;
+        quote?: T;
         id?: T;
       };
   updatedAt?: T;
