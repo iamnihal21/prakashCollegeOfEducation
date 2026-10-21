@@ -43,19 +43,19 @@ export function Header() {
   return (
     <>
       {/* --- Top Awareness Banner --- */}
-      <div className="fixed top-0 left-0 right-0 z-[60] bg-primary h-10 flex items-center justify-center border-b border-white/10 shadow-sm">
-        <div className="flex items-center gap-3 px-6">
+      <div className="fixed top-0 left-0 right-0 z-[60] bg-primary h-10 flex items-center justify-center border-b border-white/10 shadow-sm px-4 text-center">
+        <div className="flex items-center justify-center gap-2 sm:gap-3 w-full truncate">
           <motion.div
             animate={{ scale: [1, 1.2, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="w-2 h-2 rounded-full bg-secondary shadow-[0_0_10px_rgba(var(--secondary),0.5)]"
+            className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-secondary shadow-[0_0_10px_rgba(var(--secondary),0.5)] shrink-0"
           />
-          <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-primary-foreground/90">
+          <span className="text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] text-primary-foreground/90 truncate">
             We possess{' '}
             <span className="text-secondary font-black">
-              GCAS Registration Admission process
+              GCAS Registration
             </span>{' '}
-            and any query
+            Admission process
           </span>
         </div>
       </div>
@@ -63,7 +63,6 @@ export function Header() {
       {/* --- Main Header --- */}
       <header
         className={`fixed left-0 right-0 z-50 transition-all duration-500 ${
-          // Changed top-8 to top-10 to perfectly match the h-10 banner
           scrolled || !isHome
             ? 'top-10 bg-white/80 backdrop-blur-xl border-b border-gray-100 py-3 shadow-sm'
             : 'top-10 bg-transparent py-5'
@@ -85,18 +84,10 @@ export function Header() {
               </div>
 
               <div className="flex flex-col">
-                <span
-                  className={`text-xl font-black tracking-tighter leading-none transition-colors ${
-                    scrolled || !isHome ? 'text-primary' : 'text-primary'
-                  }`}
-                >
+                <span className="text-xl font-black tracking-tighter leading-none text-primary">
                   PRAKASH
                 </span>
-                <span
-                  className={`text-[9px] font-black tracking-[0.3em] transition-colors ${
-                    scrolled || !isHome ? 'text-accent' : 'text-accent'
-                  }`}
-                >
+                <span className="text-[9px] font-black tracking-[0.3em] text-accent">
                   B.Ed. College
                 </span>
               </div>
@@ -158,7 +149,7 @@ export function Header() {
               <div className="flex items-center gap-2">
                 <Globe className="w-5 h-5 text-primary animate-spin-slow" />
                 <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">
-                  Global Navigation
+                  Navigation
                 </span>
               </div>
               <button
@@ -176,7 +167,7 @@ export function Header() {
 
             {/* Menu Content */}
             <div className="flex-1 overflow-y-auto custom-scrollbar">
-              <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {navigation.map((item, i) => (
                   <motion.div
                     key={item.name}
@@ -187,12 +178,12 @@ export function Header() {
                     <Link
                       href={item.href}
                       onClick={() => setFullMenuOpen(false)}
-                      className="group block p-8 rounded-[2rem] bg-white border border-gray-100 hover:bg-primary transition-all duration-500 h-full shadow-sm hover:shadow-xl"
+                      className="group block p-6 rounded-[2rem] bg-white border border-gray-100 hover:bg-primary transition-all duration-500 h-full shadow-sm hover:shadow-xl"
                     >
-                      <div className="mb-8 w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center shadow-sm group-hover:bg-white/20 transition-colors">
+                      <div className="mb-6 w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center shadow-sm group-hover:bg-white/20 transition-colors">
                         <ChevronRight className="w-5 h-5 text-primary group-hover:text-white group-hover:rotate-[-45deg] transition-all" />
                       </div>
-                      <h3 className="text-2xl font-black text-gray-900 group-hover:text-white mb-2 transition-colors">
+                      <h3 className="text-xl font-black text-gray-900 group-hover:text-white mb-2 transition-colors">
                         {item.name}
                       </h3>
                       <p className="text-sm text-gray-500 group-hover:text-white/80 transition-colors">
@@ -204,25 +195,32 @@ export function Header() {
               </div>
             </div>
 
-            {/* Menu Footer */}
-            <div className="bg-white border-t border-gray-100 px-6 py-12">
+            {/* Menu Footer (FIXED FOR RESPONSIVENESS) */}
+            <div className="bg-white border-t border-gray-100 px-6 py-8 md:py-12">
               <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-                <div className="flex gap-12">
+                
+                {/* Changed from flex gap-12 to flex-col sm:flex-row */}
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-12 text-center sm:text-left">
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">
                       Admissions
                     </p>
                     <p className="text-sm font-bold text-gray-900">+91 9376133137</p>
                   </div>
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">
                       Email Us
                     </p>
-                    <p className="text-sm font-bold text-gray-900">prakashcollegeofeducation@yahoo.in</p>
+                    {/* Added break-all so the long email doesn't overflow tiny screens */}
+                    <p className="text-sm font-bold text-gray-900 break-all sm:break-normal">
+                      prakashcollegeofeducation@yahoo.in
+                    </p>
                   </div>
                 </div>
+
               </div>
             </div>
+
           </motion.div>
         )}
       </AnimatePresence>
@@ -239,12 +237,8 @@ export function Header() {
           animation: spin 8s linear infinite;
         }
         @keyframes spin {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
       `}</style>
     </>
