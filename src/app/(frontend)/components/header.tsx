@@ -12,7 +12,7 @@ import AdmissionInquiry from '@/app/(frontend)/admissionInquiry/page'
 const navigation = [
   { name: 'About Us', href: '/aboutus', desc: 'Our legacy and vision' },
   { name: 'Admissions', href: '/admissions', desc: 'Join our community' },
-  { name: 'Campus', href: '/campus', desc: 'Shaping Tomorrow\'s Educators' },
+  { name: 'Campus', href: '/campus', desc: "Shaping Tomorrow's Educators" },
   { name: 'Research', href: '/research', desc: 'Academic inquiry and innovation' },
   { name: 'Placements', href: '/placements', desc: 'UDISHA career support' },
   { name: 'Activities & Visits', href: '/activities-visits', desc: 'Beyond the classroom' },
@@ -51,10 +51,7 @@ export function Header() {
             className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-secondary shadow-[0_0_10px_rgba(var(--secondary),0.5)] shrink-0"
           />
           <span className="text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] text-primary-foreground/90 truncate">
-            We possess{' '}
-            <span className="text-secondary font-black">
-              GCAS Registration
-            </span>{' '}
+            We possess <span className="text-secondary font-black">GCAS Registration</span>{' '}
             Admission process
           </span>
         </div>
@@ -70,7 +67,6 @@ export function Header() {
       >
         <nav className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="flex items-center justify-between">
-            
             {/* Logo Group */}
             <Link href="/" className="group flex items-center gap-3 outline-none">
               <div className="relative w-10 h-10">
@@ -101,8 +97,8 @@ export function Header() {
                   onClick={() => setIsInquiryOpen(true)}
                   className={`rounded-full px-6 text-xs font-bold uppercase tracking-widest transition-all ${
                     scrolled || !isHome
-                      ? 'text-gray-900 hover:bg-gray-100'
-                      : 'text-foreground hover:bg-black/5'
+                      ? 'hover:text-gray-700 hover:bg-black/5'
+                      : 'hover:text-blue-700 hover:bg-gray-200'
                   }`}
                 >
                   Inquiry
@@ -124,9 +120,7 @@ export function Header() {
             <button
               onClick={() => setFullMenuOpen(true)}
               className={`lg:hidden p-2 rounded-xl transition-colors ${
-                scrolled || !isHome 
-                  ? 'text-gray-900 bg-gray-50' 
-                  : 'text-foreground bg-black/5'
+                scrolled || !isHome ? 'text-gray-900 bg-gray-50' : 'text-foreground bg-black/5'
               }`}
             >
               <Menu className="h-6 w-6" />
@@ -198,7 +192,6 @@ export function Header() {
             {/* Menu Footer (FIXED FOR RESPONSIVENESS) */}
             <div className="bg-white border-t border-gray-100 px-6 py-8 md:py-12">
               <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-                
                 {/* Changed from flex gap-12 to flex-col sm:flex-row */}
                 <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-12 text-center sm:text-left">
                   <div>
@@ -217,10 +210,8 @@ export function Header() {
                     </p>
                   </div>
                 </div>
-
               </div>
             </div>
-
           </motion.div>
         )}
       </AnimatePresence>
@@ -237,8 +228,12 @@ export function Header() {
           animation: spin 8s linear infinite;
         }
         @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
         }
       `}</style>
     </>
