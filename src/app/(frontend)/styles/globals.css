@@ -1,0 +1,331 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Clean, premium surfaces */
+    --background: 225 45% 98%;
+    --foreground: 225 55% 13%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 225 55% 13%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 225 55% 13%;
+
+    /* Primary: Royal blue from the logo */
+    --primary: 225 72% 36%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary: Lighter, refined logo green */
+    --secondary: 145 40% 37%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Muted surfaces */
+    --muted: 225 35% 95%;
+    --muted-foreground: 225 22% 39%;
+
+    /* Accent: Crimson red from the logo */
+    --accent: 354 68% 43%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Destructive: Same logo-red family */
+    --destructive: 354 68% 43%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders and inputs */
+    --border: 225 28% 89%;
+    --input: 225 28% 87%;
+
+    /* Golden yellow from the logo */
+    --ring: 50 95% 46%;
+
+    --radius: 0.875rem;
+
+    /* Brand blue */
+    --brand-blue: 225 72% 36%;
+    --brand-blue-light: 225 75% 97%;
+    --brand-blue-medium: 225 65% 52%;
+    --brand-blue-dark: 225 65% 22%;
+
+    /* Brand red */
+    --brand-red: 354 68% 43%;
+    --brand-red-light: 354 75% 97%;
+    --brand-red-dark: 354 65% 30%;
+
+    /* Brand green: lighter, but not pastel */
+    --brand-green: 145 40% 37%;
+    --brand-green-light: 145 38% 95%;
+    --brand-green-dark: 145 43% 28%;
+
+    /* Brand yellow */
+    --brand-yellow: 50 95% 46%;
+    --brand-yellow-light: 50 100% 94%;
+    --brand-yellow-dark: 50 90% 25%;
+  }
+
+  .dark {
+    /* Deep blue-based dark theme */
+    --background: 225 55% 8%;
+    --foreground: 225 30% 96%;
+
+    --card: 225 48% 11%;
+    --card-foreground: 225 30% 96%;
+
+    --popover: 225 48% 11%;
+    --popover-foreground: 225 30% 96%;
+
+    --primary: 225 75% 69%;
+    --primary-foreground: 225 65% 13%;
+
+    /* Lighter green for dark-mode contrast */
+    --secondary: 145 40% 58%;
+    --secondary-foreground: 225 55% 10%;
+
+    --muted: 225 38% 16%;
+    --muted-foreground: 225 25% 72%;
+
+    --accent: 354 70% 65%;
+    --accent-foreground: 225 55% 10%;
+
+    --destructive: 354 70% 65%;
+    --destructive-foreground: 225 55% 10%;
+
+    --border: 225 30% 21%;
+    --input: 225 30% 23%;
+
+    --ring: 50 95% 60%;
+
+    /* Dark-mode blue shades */
+    --brand-blue: 225 75% 69%;
+    --brand-blue-light: 225 45% 15%;
+    --brand-blue-medium: 225 70% 63%;
+    --brand-blue-dark: 225 65% 80%;
+
+    /* Dark-mode red shades */
+    --brand-red: 354 70% 65%;
+    --brand-red-light: 354 40% 16%;
+    --brand-red-dark: 354 65% 78%;
+
+    /* Dark-mode green shades */
+    --brand-green: 145 40% 58%;
+    --brand-green-light: 145 30% 16%;
+    --brand-green-dark: 145 40% 76%;
+
+    /* Dark-mode yellow shades */
+    --brand-yellow: 50 95% 60%;
+    --brand-yellow-light: 50 40% 16%;
+    --brand-yellow-dark: 50 90% 78%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+
+    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: hsl(var(--brand-blue) / 0.18);
+    color: hsl(var(--foreground));
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Premium cards */
+  .brand-card {
+    @apply rounded-2xl border bg-card transition-all duration-300;
+
+    box-shadow:
+      0 2px 5px hsl(var(--brand-blue) / 0.025),
+      0 8px 28px hsl(var(--brand-blue) / 0.045);
+  }
+
+  .brand-card:hover {
+    border-color: hsl(var(--brand-blue) / 0.22);
+
+    box-shadow:
+      0 5px 12px hsl(var(--brand-blue) / 0.045),
+      0 16px 38px hsl(var(--brand-blue) / 0.09);
+
+    transform: translateY(-3px);
+  }
+
+  /* Soft blue gradient section */
+  .brand-section {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--brand-blue-light)) 0%,
+      hsl(var(--background)) 100%
+    );
+  }
+
+  /* Main CTA: royal blue */
+  .brand-button {
+    @apply rounded-xl font-semibold transition-all duration-300;
+
+    background: linear-gradient(
+      135deg,
+      hsl(225 72% 36%) 0%,
+      hsl(225 68% 45%) 100%
+    );
+
+    color: hsl(0 0% 100%);
+
+    box-shadow:
+      0 4px 12px hsl(var(--brand-blue) / 0.16),
+      inset 0 1px 0 hsl(0 0% 100% / 0.12);
+  }
+
+  .brand-button:hover {
+    background: linear-gradient(
+      135deg,
+      hsl(225 72% 31%) 0%,
+      hsl(225 68% 40%) 100%
+    );
+
+    box-shadow: 0 7px 20px hsl(var(--brand-blue) / 0.24);
+    transform: translateY(-2px);
+  }
+
+  .brand-button:active {
+    transform: translateY(0);
+  }
+
+  /* Secondary CTA: refreshed logo green */
+  .brand-button-secondary {
+    @apply rounded-xl font-semibold transition-all duration-300;
+
+    background: hsl(var(--brand-green));
+    color: hsl(0 0% 100%);
+
+    box-shadow: 0 4px 12px hsl(var(--brand-green) / 0.14);
+  }
+
+  .brand-button-secondary:hover {
+    background: hsl(var(--brand-green-dark));
+
+    box-shadow: 0 7px 18px hsl(var(--brand-green) / 0.22);
+    transform: translateY(-2px);
+  }
+
+  .brand-button-secondary:active {
+    transform: translateY(0);
+  }
+
+  /* Blue-to-red gradient typography */
+  .text-gradient-primary {
+    background: linear-gradient(
+      110deg,
+      hsl(var(--brand-blue)) 0%,
+      hsl(var(--brand-red)) 100%
+    );
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Golden highlight typography */
+  .text-gradient-gold {
+    background: linear-gradient(
+      110deg,
+      hsl(50 95% 40%) 0%,
+      hsl(50 95% 28%) 100%
+    );
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Blue badges */
+  .brand-badge-blue {
+    background: hsl(var(--brand-blue-light));
+    color: hsl(var(--brand-blue));
+    border: 1px solid hsl(var(--brand-blue) / 0.16);
+    font-weight: 600;
+  }
+
+  /* Red badges */
+  .brand-badge-red {
+    background: hsl(var(--brand-red-light));
+    color: hsl(var(--brand-red));
+    border: 1px solid hsl(var(--brand-red) / 0.16);
+    font-weight: 600;
+  }
+
+  /* Green badges */
+  .brand-badge-green {
+    background: hsl(var(--brand-green-light));
+    color: hsl(var(--brand-green));
+    border: 1px solid hsl(var(--brand-green) / 0.18);
+    font-weight: 600;
+  }
+
+  /* Yellow badges: dark text for readability */
+  .brand-badge-yellow {
+    background: hsl(var(--brand-yellow-light));
+    color: hsl(var(--brand-yellow-dark));
+    border: 1px solid hsl(var(--brand-yellow) / 0.35);
+    font-weight: 600;
+  }
+
+  /* Multicolor accent line using only logo colors */
+  .brand-accent-line {
+    height: 3px;
+    border-radius: 9999px;
+
+    background: linear-gradient(
+      90deg,
+      hsl(var(--brand-blue)) 0%,
+      hsl(var(--brand-red)) 55%,
+      hsl(var(--brand-yellow)) 100%
+    );
+  }
+
+  /* Interactive outlines */
+  .brand-outline {
+    @apply rounded-xl border transition-all duration-200;
+
+    border-color: hsl(var(--brand-blue) / 0.25);
+  }
+
+  .brand-outline:hover {
+    border-color: hsl(var(--brand-blue) / 0.55);
+    box-shadow: 0 0 0 3px hsl(var(--brand-blue) / 0.07);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
