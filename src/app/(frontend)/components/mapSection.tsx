@@ -6,7 +6,7 @@ import { Button } from '@/app/(frontend)/components/ui/button'
 
 export function MapSection({ mapUrl, address }: { mapUrl?: string, address?: string }) {
   // Use the Prakash College Map URL as a fallback
-  const defaultMap = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.020426054587!2d72.51998907633718!3d23.059712714939128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e8356fed6eaa7%3A0x7cf138fb3903e441!2sAvirat%20Law%20College!5e0!3m2!1sen!2sin!4v1774524280713!5m2!1sen!2sin"
+  const defaultMap = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.023866466662!2d72.51977997531496!3d23.05958657914781!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e835453364a2d%3A0x6ed2a194b11d1ecd!2sPrakash%20College%20of%20Education!5e0!3m2!1sen!2sin!4v1792648169694!5m2!1sen!2sin"
   
   const finalMapUrl = mapUrl || defaultMap
   const finalAddress = address || 'M. R. Patel Educational Campus, Near Palladium Mall, Gulab Tower Road, Thaltej, Ahmedabad - 380054.'
